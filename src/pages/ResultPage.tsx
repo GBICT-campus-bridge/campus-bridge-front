@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 import { SegmentedControl, Button } from "@radix-ui/themes";
 import BackHeader from "@/components/BackHeader";
@@ -8,6 +9,9 @@ import Footer from "@/components/Footer";
 
 export default function ResultPage() {
   const { t } = useTranslation("page");
+
+  const location = useLocation();
+  const originalText = location.state?.text;
 
   const [selectedTab, setSelectedTab] = useState("text_translated");
 
@@ -32,7 +36,7 @@ export default function ResultPage() {
       </div>
       <div className="overflow-auto mt-8 pb-[60px] w-10/12 h-[calc(100vh-360px)] mx-auto flex flex-col gap-6">
         {selectedTab === "text_original" ? (
-          <div>오리지널 텍스트</div>
+          <div>{originalText}</div>
         ) : (
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

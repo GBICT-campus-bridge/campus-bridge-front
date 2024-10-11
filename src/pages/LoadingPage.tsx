@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+import Tesseract from "tesseract.js";
+
 import ErrorModal from "@/components/ErrorModal";
 
 export default function LoadingPage() {
@@ -12,16 +14,41 @@ export default function LoadingPage() {
   const navigate = useNavigate();
   const croppedImage = location.state?.croppedImage;
 
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [progress, setProgress] = useState<number>(0);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!croppedImage) {
+    if (croppedImage) {
+      const imageObjectURL = URL.createObjectURL(croppedImage);
+      setImageUrl(imageObjectURL);
+    } else {
       setShowModal(true);
       setTimeout(() => {
         navigate("/");
       }, 3000);
     }
   }, [croppedImage, navigate]);
+
+  useEffect(() => {
+    if (imageUrl) {
+      Tesseract.recognize(imageUrl, "kor", {
+        logger: (m) => {
+          if (m.status === "recognizing text") {
+            const progressValue = (m.progress * 100).toFixed(2);
+            setProgress(parseFloat(progressValue));
+          }
+        },
+      })
+        .then(({ data: { text } }) => {
+          navigate("/result", { state: { text } });
+        })
+        .catch((error) => {
+          console.error("OCR error:", error);
+          setShowModal(true);
+        });
+    }
+  }, [imageUrl]);
 
   return (
     <>
@@ -31,7 +58,7 @@ export default function LoadingPage() {
           <div className="fixed z-10 text-center">
             <iframe src="https://lottie.host/embed/a807f7e6-9b39-48ef-9e50-183909786a6a/3dS6Zu16YD.json"></iframe>{" "}
             <span className="text-white font-bold drop-shadow">
-              {t("Translating")}
+              {t("Translating")} {progress}%
             </span>
           </div>
           <img
