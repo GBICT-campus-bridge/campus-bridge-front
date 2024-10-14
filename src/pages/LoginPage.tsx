@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useNavigate } from "react-router-dom";
 
-import BackHeader from "@/components/BackHeader";
+import HomeHeader from "@/components/HomeHeader";
 import { Flex, TextField, Button } from "@radix-ui/themes";
 import { Link } from "react-router-dom";
 
@@ -54,7 +54,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <BackHeader />
+      <HomeHeader />
       <div className="flex w-lvw h-lvh items-center">
         <form className="w-full" onSubmit={onSubmit}>
           <Flex direction="column" gap="2" className="w-full items-center">

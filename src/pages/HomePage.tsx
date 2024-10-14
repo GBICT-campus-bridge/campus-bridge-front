@@ -22,6 +22,12 @@ export default function HomePage() {
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
+  const checkAuth = () => {
+    if (!window.localStorage.getItem("token")) {
+      navigate("/login");
+    }
+  };
+
   useEffect(() => {
     setSelectedImage(null);
   }, []);
@@ -68,7 +74,10 @@ export default function HomePage() {
           <span className="text-xl text-sky-400">캠퍼스 브릿지</span>
         </div>
         <div className="flex flex-col gap-4 mb-12">
-          <div className="w-full h-24 bg-white rounded-xl shadow-clay-white">
+          <div
+            className="w-full h-24 bg-white rounded-xl shadow-clay-white"
+            onClick={() => checkAuth()}
+          >
             <label
               htmlFor="camera"
               className="flex justify-center items-center w-full h-full gap-4"
@@ -97,7 +106,10 @@ export default function HomePage() {
             />
           </div>
 
-          <div className="w-full h-24 bg-sky-400 rounded-xl shadow-clay-blue">
+          <div
+            className="w-full h-24 bg-sky-400 rounded-xl shadow-clay-blue"
+            onClick={() => checkAuth()}
+          >
             <label
               htmlFor="gallery"
               className="flex justify-center items-center w-full h-full gap-4"
