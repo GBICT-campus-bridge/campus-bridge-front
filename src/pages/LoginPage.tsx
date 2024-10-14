@@ -39,7 +39,7 @@ export default function LoginPage() {
       password: data.password,
     };
     try {
-      const response = await axios.post(apiUrl + "/login", formData);
+      const response = await axios.post(apiUrl + "/public/login", formData);
       console.log(response.headers.authorization);
       if (response.status === 200) {
         localStorage.setItem("token", response.headers.authorization);
