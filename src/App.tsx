@@ -11,6 +11,8 @@ import GalleryPage from "@/pages/GalleryPage";
 import HistoryPage from "@/pages/HistoryPage";
 import DocumentPage from "@/pages/DocumentPage";
 import LoadingPage from "@/pages/LoadingPage";
+import { PrivateRoute } from "@/components/PrivateRoute";
+import { PublicRoute } from "@/components/PublicRoute";
 
 function App() {
   const router = createBrowserRouter([
@@ -19,15 +21,26 @@ function App() {
       element: <Layout />,
       children: [
         { path: "", element: <HomePage /> },
-        { path: "login", element: <LoginPage /> },
-        { path: "signup", element: <SignupPage /> },
-        { path: "profile", element: <ProfilePage /> },
-        { path: "camera", element: <CameraPage /> },
-        { path: "loading", element: <LoadingPage /> },
-        { path: "result", element: <ResultPage /> },
-        { path: "gallery", element: <GalleryPage /> },
-        { path: "history", element: <HistoryPage /> },
-        { path: "document/:docu_id", element: <DocumentPage /> },
+
+        {
+          element: <PrivateRoute />,
+          children: [
+            { path: "camera", element: <CameraPage /> },
+            { path: "loading", element: <LoadingPage /> },
+            { path: "result", element: <ResultPage /> },
+            { path: "profile", element: <ProfilePage /> },
+            { path: "gallery", element: <GalleryPage /> },
+            { path: "history", element: <HistoryPage /> },
+            { path: "document/:docu_id", element: <DocumentPage /> },
+          ],
+        },
+        {
+          element: <PublicRoute />,
+          children: [
+            { path: "login", element: <LoginPage /> },
+            { path: "signup", element: <SignupPage /> },
+          ],
+        },
       ],
     },
   ]);
