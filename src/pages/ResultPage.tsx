@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
 import { SegmentedControl, Button } from "@radix-ui/themes";
-import BackHeader from "@/components/BackHeader";
+import HomeHeader from "@/components/HomeHeader";
 import Footer from "@/components/Footer";
 
 export default function ResultPage() {
@@ -13,7 +13,7 @@ export default function ResultPage() {
 
   return (
     <>
-      <BackHeader />
+      <HomeHeader />
       <div className="pt-[70px] w-full flex justify-center pt-4">
         <SegmentedControl.Root
           defaultValue="text_translated"

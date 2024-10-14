@@ -24,5 +24,6 @@
   "BackToMainMsg": "잠시 후 메인화면으로 돌아갑니다.",
   "KO": "한국어",
   "US": "영어",
-  "Language": "언어 설정"
+  "Language": "언어 설정",
+  "GoHome": "메인으로"
 }

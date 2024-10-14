@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
-import BackHeader from "@/components/BackHeader";
+import HomeHeader from "@/components/HomeHeader";
 import Footer from "@/components/Footer";
 
 export default function ProfilePage() {
@@ -19,8 +19,6 @@ export default function ProfilePage() {
     const nickname = localStorage.getItem("nickname");
     if (token && nickname) {
       setUser({ token, nickname });
-    } else {
-      navigate("/login");
     }
   }, []);
 
@@ -32,7 +30,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      <BackHeader />
+      <HomeHeader />
       <div className="mx-12 pt-[100px] flex flex-col gap-10">
         <div className="flex gap-8">
           <div> {t("Nickname")}</div>
