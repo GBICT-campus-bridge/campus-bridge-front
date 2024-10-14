@@ -68,7 +68,7 @@ export default function SignupPage() {
       name: data.nickname,
     };
     try {
-      const response = await axios.post(apiUrl + "/signup", formData);
+      const response = await axios.post(apiUrl + "/public/signup", formData);
       console.log(response);
       if (response.status === 200) {
         alert("회원가입 성공!");

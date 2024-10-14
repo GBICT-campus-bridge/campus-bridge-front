@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 
 import { SegmentedControl } from "@radix-ui/themes";
 import BackHeader from "@/components/BackHeader";
