@@ -10,8 +10,6 @@ import Footer from "@/components/Footer";
 export default function DocumentPage() {
   const { t } = useTranslation("page");
 
-  const { docu_id } = useParams();
-
   const [selectedTab, setSelectedTab] = useState("text_translated");
 
   return (

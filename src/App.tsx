@@ -7,7 +7,6 @@ import SignupPage from "@/pages/SignupPage";
 import ProfilePage from "@/pages/ProfilePage";
 import CameraPage from "@/pages/CameraPage";
 import ResultPage from "@/pages/ResultPage";
-import GalleryPage from "@/pages/GalleryPage";
 import HistoryPage from "@/pages/HistoryPage";
 import DocumentPage from "@/pages/DocumentPage";
 import LoadingPage from "@/pages/LoadingPage";
@@ -29,7 +28,6 @@ function App() {
             { path: "loading", element: <LoadingPage /> },
             { path: "result", element: <ResultPage /> },
             { path: "profile", element: <ProfilePage /> },
-            { path: "gallery", element: <GalleryPage /> },
             { path: "history", element: <HistoryPage /> },
             { path: "document/:docu_id", element: <DocumentPage /> },
           ],
