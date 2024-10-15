@@ -6,7 +6,6 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import BackHeader from "@/components/BackHeader";
 import DocumentItem from "@/components/DocumentItem";
 import Footer from "@/components/Footer";
-import DocumentPage from "@/pages/DocumentPage";
 import DocumentSkeleton from "@/components/DocumentSkeleton";
 
 interface UseObserverProps {
