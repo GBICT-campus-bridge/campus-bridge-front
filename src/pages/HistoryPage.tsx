@@ -6,6 +6,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import BackHeader from "@/components/BackHeader";
 import DocumentItem from "@/components/DocumentItem";
 import Footer from "@/components/Footer";
+import DocumentPage from "@/pages/DocumentPage";
+import DocumentSkeleton from "@/components/DocumentSkeleton";
 
 interface UseObserverProps {
   target: MutableRefObject<Element | null>; // Ref 객체로 전달되는 DOM 요소
@@ -26,7 +28,7 @@ export default function HistoryPage() {
     return documents;
   };
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, isLoading, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["documents"],
       queryFn: fetchDocuments,
@@ -77,6 +79,7 @@ export default function HistoryPage() {
       <BackHeader />
       <div className="bg-slate-100 overflow-auto">
         <div className="pt-[80px] pb-[80px] w-10/12 h-[calc(100%-60px)] mx-auto flex flex-col gap-6">
+          {isLoading && <DocumentSkeleton />}
           {data?.pages.map((group, i) => (
             <React.Fragment key={i}>
               {group.map((document: any) => (
@@ -84,7 +87,11 @@ export default function HistoryPage() {
               ))}
             </React.Fragment>
           ))}
-          <div ref={bottomRef}></div>
+          {isFetchingNextPage ? (
+            <DocumentSkeleton />
+          ) : (
+            <div ref={bottomRef}></div>
+          )}
         </div>
       </div>
       <Footer />
