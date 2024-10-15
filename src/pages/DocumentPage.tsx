@@ -31,7 +31,7 @@ export default function DocumentPage() {
           </SegmentedControl.Item>
         </SegmentedControl.Root>
       </div>
-      <div className="overflow-auto mt-8 pb-[60px] w-10/12 h-[calc(100vh-250px)] mx-auto flex flex-col gap-6">
+      <div className="overflow-auto mt-8 pb-[50px] w-10/12 h-[calc(100vh-250px)] mx-auto flex flex-col gap-6">
         {selectedTab === "text_original" ? (
           <div>오리지널 텍스트</div>
         ) : (
