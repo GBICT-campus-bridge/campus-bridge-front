@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { SegmentedControl } from "@radix-ui/themes";
 

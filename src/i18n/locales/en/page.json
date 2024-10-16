@@ -25,5 +25,7 @@
   "KO": "Korean",
   "US": "English",
   "Language": "Language",
-  "GoHome": "Back to main"
+  "GoHome": "Back to main",
+  "HistoryErrMsg": "There was an errow while fetching the history. Please try again.",
+  "NoHistory": "No History"
 }
