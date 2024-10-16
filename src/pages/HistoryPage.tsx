@@ -24,10 +24,10 @@ export default function HistoryPage() {
   const navigate = useNavigate();
 
   const apiUrl = import.meta.env.VITE_API_URL;
-  const pageLimit = 6;
+  const pageLimit = 10;
+  const token = localStorage.getItem("token");
 
   const fetchDocuments = async ({ pageParam }: { pageParam: number }) => {
-    const token = localStorage.getItem("token");
     if (token) {
       try {
         const response = await axios.get(
@@ -72,6 +72,10 @@ export default function HistoryPage() {
       }
       return allPages.length + 1;
     },
+    retry: 0,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
   });
 
   const useObserver = ({
@@ -109,37 +113,35 @@ export default function HistoryPage() {
 
   return (
     <>
-      <div className="mt-[20px] h-full overflow-auto">
-        <div className="w-10/12 mx-auto flex flex-col gap-6">
-          {isLoading && <DocumentSkeleton />}
-          {isError && <div className="text-red-500">{t("HistoryErrMsg")}</div>}
-          {data && data.pages[0][0].id ? (
-            data.pages.map((group, i) => (
-              <React.Fragment key={i}>
-                {group.map(
-                  (document: {
-                    url: string;
-                    id: number;
-                    title: string;
-                    createdAt: string;
-                  }) => (
-                    <DocumentItem key={document.id} document={document} />
-                  )
-                )}
-              </React.Fragment>
-            ))
-          ) : (
-            <div className="w-full h-[80vh] flex flex-col justify-center items-center gap-4">
-              <img src={NoData} alt="No data" className="w-32 opacity-50" />
-              <p className="text-slate-400 font-bold">{t("NoHistory")}</p>
-            </div>
-          )}
-          {isFetchingNextPage ? (
-            <DocumentSkeleton />
-          ) : (
-            hasNextPage && <div ref={bottomRef}></div>
-          )}
-        </div>
+      <div className="overflow-auto mt-[20px] h-[calc(100vh-140px)] w-10/12 mx-auto flex flex-col gap-6">
+        {isLoading && <DocumentSkeleton />}
+        {isError && <div className="text-red-500">{t("HistoryErrMsg")}</div>}
+        {data && data.pages[0][0].id ? (
+          data.pages.map((group, i) => (
+            <React.Fragment key={i}>
+              {group.map(
+                (document: {
+                  url: string;
+                  id: number;
+                  title: string;
+                  createdAt: string;
+                }) => (
+                  <DocumentItem key={document.id} document={document} />
+                )
+              )}
+            </React.Fragment>
+          ))
+        ) : (
+          <div className="w-full h-[80vh] flex flex-col justify-center items-center gap-4">
+            <img src={NoData} alt="No data" className="w-32 opacity-50" />
+            <p className="text-slate-400 font-bold">{t("NoHistory")}</p>
+          </div>
+        )}
+        {isFetchingNextPage ? (
+          <DocumentSkeleton />
+        ) : (
+          hasNextPage && <div ref={bottomRef}></div>
+        )}
       </div>
     </>
   );
