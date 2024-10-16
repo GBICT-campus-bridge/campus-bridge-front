@@ -25,9 +25,9 @@ export default function HistoryPage() {
 
   const apiUrl = import.meta.env.VITE_API_URL;
   const pageLimit = 6;
+  const token = localStorage.getItem("token");
 
   const fetchDocuments = async ({ pageParam }: { pageParam: number }) => {
-    const token = localStorage.getItem("token");
     if (token) {
       try {
         const response = await axios.get(
@@ -72,6 +72,10 @@ export default function HistoryPage() {
       }
       return allPages.length + 1;
     },
+    retry: 0,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
   });
 
   const useObserver = ({
