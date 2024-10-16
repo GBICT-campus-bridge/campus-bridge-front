@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import axios from "axios";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import ErrorModal from "@/components/ErrorModal";
