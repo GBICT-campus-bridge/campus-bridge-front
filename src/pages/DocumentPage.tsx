@@ -1,18 +1,60 @@
 import { useTranslation } from "react-i18next";
 
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { SegmentedControl } from "@radix-ui/themes";
 
+interface DocumentType {
+  id: number;
+  original: string;
+  translated: string;
+}
 export default function DocumentPage() {
   const { t } = useTranslation("page");
 
+  const navigate = useNavigate();
+
   const [selectedTab, setSelectedTab] = useState("text_translated");
+  const [document, setDocument] = useState<DocumentType | null>(null);
+
+  const { documentId } = useParams();
+
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    const fetchDocument = async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await axios.get(
+          apiUrl + `/auth/docs/docsId/${documentId}`,
+          {
+            headers: { Authorization: token },
+          }
+        );
+        setDocument(response.data);
+      } catch (error: any) {
+        const response = error.response.data;
+        if (
+          response.status === 401 &&
+          (response.message === "Token has expired" ||
+            response.message === "invalid token Data")
+        ) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("nickname");
+          navigate("/login");
+        } else {
+          navigate("/history");
+          console.error(response.message);
+        }
+      }
+    };
+    fetchDocument();
+  }, [documentId]);
 
   return (
     <>
-      <div className="text-center text-xl font-bold mt-6">문서 제목</div>
-      <div className="w-full flex justify-center pt-4">
+      <div className="w-full flex justify-center pt-4 mt-6">
         <SegmentedControl.Root
           defaultValue="text_translated"
           radius="large"
@@ -29,50 +71,12 @@ export default function DocumentPage() {
         </SegmentedControl.Root>
       </div>
       <div className="overflow-auto mt-8 mb-[50px] w-10/12 h-[calc(100vh-300px)] mx-auto flex flex-col gap-6">
-        {selectedTab === "text_original" ? (
-          <div>오리지널 텍스트</div>
-        ) : (
-          <div>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl
-            tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem
-            ipsum dolor sit. Volutpat odio facilisis mauris sit amet massa.
-            Commodo odio aenean sed adipiscing diam donec adipiscing tristique.
-            Mi eget mauris pharetra et. Non tellus orci ac auctor augue. Elit at
-            imperdiet dui accumsan sit. Ornare arcu dui vivamus arcu felis.
-            Egestas integer eget aliquet nibh praesent. In hac habitasse platea
-            dictumst quisque sagittis purus. Pulvinar elementum integer enim
-            neque volutpat ac. Lorem ipsum dolor sit amet, consectetur
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Nisl tincidunt eget nullam non. Quis hendrerit
-            dolor magna eget est lorem ipsum dolor sit. Volutpat odio facilisis
-            mauris sit amet massa. Commodo odio aenean sed adipiscing diam donec
-            adipiscing tristique. Mi eget mauris pharetra et. Non tellus orci ac
-            auctor augue. Elit at imperdiet dui accumsan sit. Ornare arcu dui
-            vivamus arcu felis. Egestas integer eget aliquet nibh praesent. In
-            hac habitasse platea dictumst quisque sagittis purus. Pulvinar
-            elementum integer enim neque volutpat ac. Lorem ipsum dolor sit
-            amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua. Nisl tincidunt eget nullam non.
-            Quis hendrerit dolor magna eget est lorem ipsum dolor sit. Volutpat
-            odio facilisis mauris sit amet massa. Commodo odio aenean sed
-            adipiscing diam donec adipiscing tristique. Mi eget mauris pharetra
-            et. Non tellus orci ac auctor augue. Elit at imperdiet dui accumsan
-            sit. Ornare arcu dui vivamus arcu felis. Egestas integer eget
-            aliquet nibh praesent. In hac habitasse platea dictumst quisque
-            sagittis purus. Pulvinar elementum integer enim neque volutpat ac.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl
-            tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem
-            ipsum dolor sit. Volutpat odio facilisis mauris sit amet massa.
-            Commodo odio aenean sed adipiscing diam donec adipiscing tristique.
-            Mi eget mauris pharetra et. Non tellus orci ac auctor augue. Elit at
-            imperdiet dui accumsan sit. Ornare arcu dui vivamus arcu felis.
-            Egestas integer eget aliquet nibh praesent. In hac habitasse platea
-            dictumst quisque sagittis purus. Pulvinar elementum integer enim
-            neque volutpat ac.
-          </div>
-        )}
+        {document &&
+          (selectedTab === "text_original" ? (
+            <div className="whitespace-pre-line">{document.original}</div>
+          ) : (
+            <div className="whitespace-pre-line">번역본이 나올 예정...</div>
+          ))}
       </div>
     </>
   );

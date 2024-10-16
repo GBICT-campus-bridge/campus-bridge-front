@@ -30,7 +30,7 @@ function App() {
             { path: "result", element: <ResultPage /> },
             { path: "profile", element: <ProfilePage /> },
             { path: "history", element: <HistoryPage /> },
-            { path: "document/:docu_id", element: <DocumentPage /> },
+            { path: "document/:documentId", element: <DocumentPage /> },
           ],
         },
         {
