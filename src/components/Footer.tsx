@@ -15,7 +15,7 @@ export default function Footer() {
   return (
     <>
       <div className="flex w-full h-[60px] justify-center items-center fixed bottom-0 z-10 bg-slate-50 rounded-t-xl shadow-[0_0_10px_rgba(0,0,0,0.1)]">
-        <div className="flex w-4/5 justify-between">
+        <div className="flex w-4/5 lg:w-3/5 xl:w-2/5 justify-between">
           <div
             onClick={() => navigate("/")}
             className={`flex flex-col justify-center items-center w-[30px] ${
