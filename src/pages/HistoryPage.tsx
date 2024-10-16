@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { MutableRefObject, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 
@@ -14,15 +15,25 @@ interface UseObserverProps {
 }
 
 export default function HistoryPage() {
-  const apiUrl = "https://jsonplaceholder.typicode.com";
-  const pageLimit = 15;
+  const navigate = useNavigate();
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const pageLimit = 6;
 
   const fetchDocuments = async ({ pageParam }: { pageParam: number }) => {
-    const response = await axios.get(
-      apiUrl + `/posts?_page=${pageParam}&_limit=${pageLimit}`
-    );
-    const documents = response.data;
-    return documents;
+    const token = localStorage.getItem("token");
+    if (token) {
+      const response = await axios.get(
+        apiUrl + `/auth/docs?page=${pageParam}&size=${pageLimit}&sort=desc`,
+        {
+          headers: { Authorization: token },
+        }
+      );
+      const documents = response.data.data;
+      return documents;
+    } else {
+      navigate("/login");
+    }
   };
 
   const { data, fetchNextPage, isLoading, isFetchingNextPage } =
@@ -78,9 +89,16 @@ export default function HistoryPage() {
           {isLoading && <DocumentSkeleton />}
           {data?.pages.map((group, i) => (
             <React.Fragment key={i}>
-              {group.map((document: any) => (
-                <DocumentItem key={document.id} document={document} />
-              ))}
+              {group.map(
+                (document: {
+                  url: string;
+                  id: number;
+                  title: string;
+                  createdAt: string;
+                }) => (
+                  <DocumentItem key={document.id} document={document} />
+                )
+              )}
             </React.Fragment>
           ))}
           {isFetchingNextPage ? (
