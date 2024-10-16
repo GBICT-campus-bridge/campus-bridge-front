@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Footer from "@/components/Footer";
 import { DropdownMenu, Button } from "@radix-ui/themes";
 
 import MainLogo from "@/assets/images/main-logo.png";
@@ -138,7 +137,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

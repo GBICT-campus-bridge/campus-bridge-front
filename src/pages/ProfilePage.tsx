@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
-import HomeHeader from "@/components/HomeHeader";
-import Footer from "@/components/Footer";
 
 export default function ProfilePage() {
   const { t } = useTranslation("page");
@@ -30,8 +28,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      <HomeHeader />
-      <div className="mx-12 pt-[100px] flex flex-col gap-10">
+      <div className="mx-12 flex flex-col gap-10 mt-12">
         <div className="flex gap-8">
           <div> {t("Nickname")}</div>
           <div className="font-bold">{user?.nickname}</div>
@@ -48,7 +45,6 @@ export default function ProfilePage() {
         <hr />
         <div> {t("TermsOfService")}</div>
       </div>
-      <Footer />
     </>
   );
 }
