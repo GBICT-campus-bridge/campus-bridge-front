@@ -1,6 +1,8 @@
 import { useTranslation } from "react-i18next";
 
-import { useState, useEffect } from "react";
+import axios from "axios";
+
+import { useState, useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import ErrorModal from "@/components/ErrorModal";
@@ -14,12 +16,47 @@ export default function LoadingPage() {
 
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
+  useMemo(() => {
     if (!croppedImage) {
       setShowModal(true);
       setTimeout(() => {
         navigate("/");
       }, 3000);
+    } else {
+      const apiUrl = import.meta.env.VITE_API_URL;
+      const fetchOCR = async () => {
+        const token = localStorage.getItem("token");
+
+        const formData = new FormData();
+        formData.append("document", croppedImage);
+
+        try {
+          const response = await axios.post(apiUrl + "/auth/docs", formData, {
+            headers: { Authorization: token },
+          });
+          navigate("/result", {
+            state: { document: response.data },
+          });
+        } catch (error: any) {
+          const response = error.response.data;
+          if (
+            response.status === 401 &&
+            (response.message === "Token has expired" ||
+              response.message === "invalid token Data")
+          ) {
+            localStorage.removeItem("token");
+            localStorage.removeItem("nickname");
+            navigate("/login");
+          } else {
+            alert(
+              "이미지 텍스트 인식 중 오류가 발생했습니다. 메인페이지로 돌아갑니다."
+            );
+            navigate("/");
+            console.error(response.message);
+          }
+        }
+      };
+      fetchOCR();
     }
   }, [croppedImage, navigate]);
 

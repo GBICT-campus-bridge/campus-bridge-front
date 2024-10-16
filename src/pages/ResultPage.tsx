@@ -3,9 +3,14 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
 import { SegmentedControl, Button } from "@radix-ui/themes";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function ResultPage() {
   const { t } = useTranslation("page");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const result = location.state?.document;
 
   const [selectedTab, setSelectedTab] = useState("text_translated");
 
@@ -29,9 +34,9 @@ export default function ResultPage() {
       </div>
       <div className="overflow-auto mt-8 w-10/12 h-[calc(100vh-360px)] mx-auto flex flex-col gap-6">
         {selectedTab === "text_original" ? (
-          <div>오리지널 텍스트</div>
+          <div className="whitespace-pre-line">{result.convertString}</div>
         ) : (
-          <div>
+          <div className="whitespace-pre-line">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl
             tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem
@@ -77,8 +82,11 @@ export default function ResultPage() {
         <Button
           size="3"
           className="w-48 h-[50px] font-suite rounded-xl bg-sky-400 shadow-clay-blue-sm"
+          onClick={() => {
+            navigate(`/document/${result.documentId}`);
+          }}
         >
-          {t("Save")}
+          {t("OK")}
         </Button>
       </div>
     </>
