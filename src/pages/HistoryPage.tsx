@@ -7,6 +7,8 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import DocumentItem from "@/components/DocumentItem";
 import DocumentSkeleton from "@/components/DocumentSkeleton";
 
+import NoData from "@/assets/images/no-data.png";
+
 interface UseObserverProps {
   target: MutableRefObject<Element | null>;
   rootMargin?: string;
@@ -29,7 +31,7 @@ export default function HistoryPage() {
           headers: { Authorization: token },
         }
       );
-      const documents = response.data.data;
+      const documents = response.data.data || [];
       return documents;
     } else {
       navigate("/login");
@@ -87,20 +89,27 @@ export default function HistoryPage() {
       <div className="mt-[20px] h-full overflow-auto">
         <div className="w-10/12 mx-auto flex flex-col gap-6">
           {isLoading && <DocumentSkeleton />}
-          {data?.pages.map((group, i) => (
-            <React.Fragment key={i}>
-              {group.map(
-                (document: {
-                  url: string;
-                  id: number;
-                  title: string;
-                  createdAt: string;
-                }) => (
-                  <DocumentItem key={document.id} document={document} />
-                )
-              )}
-            </React.Fragment>
-          ))}
+          {data && data.pages[0].id ? (
+            data.pages.map((group, i) => (
+              <React.Fragment key={i}>
+                {group.map(
+                  (document: {
+                    url: string;
+                    id: number;
+                    title: string;
+                    createdAt: string;
+                  }) => (
+                    <DocumentItem key={document.id} document={document} />
+                  )
+                )}
+              </React.Fragment>
+            ))
+          ) : (
+            <div className="w-full h-[80vh] flex flex-col justify-center items-center gap-4">
+              <img src={NoData} alt="No data" className="w-32 opacity-50" />
+              <p className="text-slate-400 font-bold">히스토리가 없습니다.</p>
+            </div>
+          )}
           {isFetchingNextPage ? (
             <DocumentSkeleton />
           ) : (
