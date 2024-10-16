@@ -3,16 +3,14 @@ import React, { MutableRefObject, useEffect, useRef } from "react";
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-import BackHeader from "@/components/BackHeader";
 import DocumentItem from "@/components/DocumentItem";
-import Footer from "@/components/Footer";
 import DocumentSkeleton from "@/components/DocumentSkeleton";
 
 interface UseObserverProps {
-  target: MutableRefObject<Element | null>; // Ref 객체로 전달되는 DOM 요소
-  rootMargin?: string; // rootMargin의 기본값은 "0px"
-  threshold?: number | number[]; // threshold는 0~1 사이의 숫자 또는 숫자 배열
-  onIntersect: IntersectionObserverCallback; // IntersectionObserver 콜백 타입
+  target: MutableRefObject<Element | null>;
+  rootMargin?: string;
+  threshold?: number | number[];
+  onIntersect: IntersectionObserverCallback;
 }
 
 export default function HistoryPage() {
@@ -75,9 +73,8 @@ export default function HistoryPage() {
 
   return (
     <>
-      <BackHeader />
-      <div className="bg-slate-100 overflow-auto">
-        <div className="pt-[80px] pb-[80px] w-10/12 h-[calc(100%-60px)] mx-auto flex flex-col gap-6">
+      <div className="mt-[20px] h-full overflow-auto">
+        <div className="w-10/12 mx-auto flex flex-col gap-6">
           {isLoading && <DocumentSkeleton />}
           {data?.pages.map((group, i) => (
             <React.Fragment key={i}>
@@ -93,7 +90,6 @@ export default function HistoryPage() {
           )}
         </div>
       </div>
-      <Footer />
     </>
   );
 }

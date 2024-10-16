@@ -3,8 +3,6 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
 import { SegmentedControl } from "@radix-ui/themes";
-import BackHeader from "@/components/BackHeader";
-import Footer from "@/components/Footer";
 
 export default function DocumentPage() {
   const { t } = useTranslation("page");
@@ -13,8 +11,7 @@ export default function DocumentPage() {
 
   return (
     <>
-      <BackHeader />
-      <div className="pt-[70px] text-center text-xl font-bold">문서 제목</div>
+      <div className="text-center text-xl font-bold mt-6">문서 제목</div>
       <div className="w-full flex justify-center pt-4">
         <SegmentedControl.Root
           defaultValue="text_translated"
@@ -31,7 +28,7 @@ export default function DocumentPage() {
           </SegmentedControl.Item>
         </SegmentedControl.Root>
       </div>
-      <div className="overflow-auto mt-8 pb-[50px] w-10/12 h-[calc(100vh-250px)] mx-auto flex flex-col gap-6">
+      <div className="overflow-auto mt-8 mb-[50px] w-10/12 h-[calc(100vh-300px)] mx-auto flex flex-col gap-6">
         {selectedTab === "text_original" ? (
           <div>오리지널 텍스트</div>
         ) : (
@@ -77,7 +74,6 @@ export default function DocumentPage() {
           </div>
         )}
       </div>
-      <Footer />
     </>
   );
 }
