@@ -64,7 +64,6 @@ export default function CameraPage() {
             responsive={true}
             rotatable={true}
             viewMode={1}
-            // crop={onCrop}
             ref={cropperRef}
           />
           <div className="fixed z-1 top-4 right-4">

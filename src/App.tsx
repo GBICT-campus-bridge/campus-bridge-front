@@ -1,4 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 import Layout from "@/components/Layout";
 import HomePage from "@/pages/HomePage";
@@ -29,7 +30,7 @@ function App() {
             { path: "result", element: <ResultPage /> },
             { path: "profile", element: <ProfilePage /> },
             { path: "history", element: <HistoryPage /> },
-            { path: "document/:docu_id", element: <DocumentPage /> },
+            { path: "document/:documentId", element: <DocumentPage /> },
           ],
         },
         {
@@ -43,9 +44,13 @@ function App() {
     },
   ]);
 
+  const queryClient = new QueryClient();
+
   return (
     <>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </>
   );
 }

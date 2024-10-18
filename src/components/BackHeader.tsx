@@ -8,9 +8,9 @@ export default function BackHeader() {
 
   return (
     <>
-      <div className="flex w-full h-[60px] justify-center items-center fixed top-0 z-10 bg-white">
+      <div className="flex w-full h-[60px] justify-start items-center fixed top-0 z-10 bg-white">
         <div
-          className="flex w-11/12 justify-start items-center gap-2"
+          className="flex justify-start items-center gap-2 ml-5"
           onClick={() => navigate(-1)}
         >
           <div>

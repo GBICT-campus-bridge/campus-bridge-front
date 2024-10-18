@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Footer from "@/components/Footer";
 import { DropdownMenu, Button } from "@radix-ui/themes";
 
 import MainLogo from "@/assets/images/main-logo.png";
@@ -68,12 +67,12 @@ export default function HomePage() {
           </DropdownMenu.Content>
         </DropdownMenu.Root>
       </div>
-      <div className="text-center w-8/12 h-full flex flex-col justify-center mx-auto">
-        <div className="text-4xl font-bold mb-16 text-sky-500">
+      <div className="text-center w-8/12 lg:w-4/12 h-full flex flex-col justify-center mx-auto">
+        <div className="text-4xl font-bold mb-16 text-sky-500 w-100vw mx-auto">
           <img src={MainLogo} alt="Campus Bridge" />
           <span className="text-xl text-sky-400">캠퍼스 브릿지</span>
         </div>
-        <div className="flex flex-col gap-4 mb-12">
+        <div className="flex flex-col gap-4">
           <div
             className="w-full h-24 bg-white rounded-xl shadow-clay-white"
             onClick={() => checkAuth()}
@@ -138,7 +137,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

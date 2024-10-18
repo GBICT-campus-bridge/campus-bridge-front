@@ -3,18 +3,20 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
 import { SegmentedControl, Button } from "@radix-ui/themes";
-import HomeHeader from "@/components/HomeHeader";
-import Footer from "@/components/Footer";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function ResultPage() {
   const { t } = useTranslation("page");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const result = location.state?.document;
 
   const [selectedTab, setSelectedTab] = useState("text_translated");
 
   return (
     <>
-      <HomeHeader />
-      <div className="pt-[70px] w-full flex justify-center pt-4">
+      <div className="w-full flex justify-center mt-6">
         <SegmentedControl.Root
           defaultValue="text_translated"
           radius="large"
@@ -30,11 +32,11 @@ export default function ResultPage() {
           </SegmentedControl.Item>
         </SegmentedControl.Root>
       </div>
-      <div className="overflow-auto mt-8 pb-[60px] w-10/12 h-[calc(100vh-360px)] mx-auto flex flex-col gap-6">
+      <div className="overflow-auto mt-8 w-10/12 h-[calc(100vh-360px)] mx-auto flex flex-col gap-6">
         {selectedTab === "text_original" ? (
-          <div>오리지널 텍스트</div>
+          <div className="whitespace-pre-line">{result.convertString}</div>
         ) : (
-          <div>
+          <div className="whitespace-pre-line">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisl
             tincidunt eget nullam non. Quis hendrerit dolor magna eget est lorem
@@ -76,16 +78,17 @@ export default function ResultPage() {
           </div>
         )}
       </div>
-      <div className="flex justify-center items-center h-32">
+      <div className="flex justify-center items-center h-36">
         <Button
           size="3"
           className="w-48 h-[50px] font-suite rounded-xl bg-sky-400 shadow-clay-blue-sm"
+          onClick={() => {
+            navigate(`/document/${result.documentId}`);
+          }}
         >
-          {t("Save")}
+          {t("OK")}
         </Button>
       </div>
-
-      <Footer />
     </>
   );
 }
