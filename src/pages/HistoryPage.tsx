@@ -113,7 +113,7 @@ export default function HistoryPage() {
         <div className="w-10/12 mx-auto flex flex-col gap-6">
           {isLoading && <DocumentSkeleton />}
           {isError && <div className="text-red-500">{t("HistoryErrMsg")}</div>}
-          {data && data.pages[0][0].id ? (
+          {data && data.pages[0][0]?.id ? (
             data.pages.map((group, i) => (
               <React.Fragment key={i}>
                 {group.map(
